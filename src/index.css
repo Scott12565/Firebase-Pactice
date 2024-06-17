@@ -1,68 +1,98 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+body{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: black;
+    height: 100vh;
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+.app{
+    height: 100%;
+    width: 100dvw;
+    background-color: #f6f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 0;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.form-group{
+    width: 46%;
+    margin: 0 auto;
+    padding: 30px;
+    box-shadow: 2px 2px 4px #d4d2d2;
+    border-radius: 15px;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+.form-group h1{
+    font-size: 25px;
+    padding: 20px 0;
+    font-weight: 600;
+    text-decoration: underline;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.form-group .welcome{
+    padding: 5px 0;
+}
+.form-group .welcome p{
+    font-size: 20px;
+}
+
+.form-group .welcome div{
+    margin: 20px 0;
+}
+
+.profile .user-info{
+   
+}
+
+.profile .user-info h4, h1{
+    padding: 10px 0;
+    font-size: 20px;
+    font-weight: 100;
+    word-spacing: .05em;
+}
+
+input{
+    display: block;
+    width: 97%;
+    margin: 12px auto;
+    padding: 10px;
+    font-size: 17px;
+    border-radius: 5px;
+    border-color: aqua;
+}
+
+input:focus{
+    outline-color: green;
+    border: none;
+    border-radius: 5px;
+}
+
+label{
+    width: 97%;
+    margin: 0 12px;
+    font-size: 16px;
+
+}
+
+button{
+    margin: 10px 12px;
+    padding: 8px 13px;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    background-color: #333;
+    opacity: .7;
+    color: #fff;
+    cursor: pointer;
+}
+
+button:hover{
+    background-color: #333;
+    opacity: .8;
 }
