@@ -96,3 +96,17 @@ button:hover{
     background-color: #333;
     opacity: .8;
 }
+
+ul{
+    list-style: none;
+    padding: 5px 0;
+}
+
+.tasks li{
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    background-color: #ccc7c7;
+    padding: 20px 10px;
+   margin: 10px 0;
+}

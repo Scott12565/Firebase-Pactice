@@ -30,16 +30,12 @@ export const SignOut = () => {
     })
 }
 
-
-
 export const profileUpdate = (name) => {
     updateProfile(auth.currentUser, {
         displayName: name
     }).then(() => {
         console.log('updated');
     }).catch(erro => console.log(erro.message));
-
-    
 }
 
 export const updateUserEmail = (email) => {

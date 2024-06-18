@@ -3,6 +3,7 @@ import { auth } from "../firbase-config/firebase";
 import { SignOut, signUp } from "./index";
 import PropTypes from "prop-types";
 import Profile from "../profile/Profile";
+import ToDo from "../components/ToDo";
 
 const SignUp = ({ toggleForm }) => {
     
@@ -66,6 +67,9 @@ const SignUp = ({ toggleForm }) => {
                 ) : (
                 !isUserProfile ? (<div>
                 <p>Welcome, to your dashboard! {currentUser.displayName} </p>
+                <div>
+                    <ToDo />
+                </div>
                 <div>
                 <button onClick={handleLogOut}>Log Out</button>
                 <button onClick={handleToogleProfile} >Profile</button>
