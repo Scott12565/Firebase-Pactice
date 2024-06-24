@@ -1,15 +1,22 @@
-import { auth } from "../firbase-config/firebase";
+import { doc, setDoc } from "firebase/firestore";
+import { auth, db } from "../firbase-config/firebase";
 import { createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 
-export const signUp = (userEmail, password) => {
-    createUserWithEmailAndPassword(auth, userEmail, password)
-    .then(userCredential => {
+export const signUp = async (userEmail, password) => {
+    
+    try {
+        const userCredential = await createUserWithEmailAndPassword(auth, userEmail, password);
         console.log(userCredential.user.email);
         console.log('logged in');
-    }).catch(error => {
-        console.log(error.message);
-    })
-    
+        const user = auth?.currentUser;
+            await setDoc(doc(db, 'users', user.uid), {
+                userId: user?.uid,
+                email: user?.email,
+                createdAt: new Date()
+            });
+    } catch (err) {
+        console.log(err.message);
+    }
 }
 
 export const signIn = (userEmail, password) => {

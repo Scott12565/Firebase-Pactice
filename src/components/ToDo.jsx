@@ -1,4 +1,4 @@
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "../firbase-config/firebase";
 
@@ -9,7 +9,7 @@ const ToDo = () => {
 
     const handldeTaskAdd = async (e) => {
         e.preventDefault();
-        if(task.trim() === '') return;
+        if (task.trim() === '') return;
         try {
             await addDoc(collection(db, 'myToDos'), { task })
             setTasks((prevTasks) => [...prevTasks, { task }]);
@@ -23,17 +23,35 @@ const ToDo = () => {
     }
 
     const getTodos = async () => {
-        const querySnapShot = await getDocs(collection(db, 'myToDos'))
-        const todo = querySnapShot.docs.map(doc => doc.data())
-        setTasks(todo);
+        const querySnapShot = await getDocs(collection(db, 'myToDos'));
+        const todos = querySnapShot.docs.map(doc => {
+            console.log(doc.data());
+            return {
+                id: doc.id,
+                ...doc.data()
+            }
+        });
+
+        setTasks(todos);
+        console.log(todos);
     }
 
-    getTodos();
-    // useEffect(() => {
-        
-    // }, [tasks]);
-    
-    return ( 
+    // getTodos();
+
+    useEffect(() => {
+        getTodos();
+    }, [])
+
+    const handleDelete = async (id) => {
+        try {
+            await deleteDoc(doc(db, 'myToDos', id));
+            console.log('doc is deleted');
+            setTasks(tasks.filter(task => task.id !== id))
+        } catch (err) {
+            console.log(err.message);
+        }
+    }
+    return (
         <>
             <div>
                 <div style={{
@@ -56,9 +74,16 @@ const ToDo = () => {
                     <ul>
                         {
                             tasks.map((todo, index) => (
-                                <li key={index}>
+                                <li key={index} style={{
+                                    display: 'flex',
+                                    justifyContent: "space-between",
+                                    alignItems: 'center'
+                                }}>
                                     <p>{todo.task}</p>
-                                    <span>&times;</span>
+                                    <span style={{
+                                        fontSize: '35px',
+                                        color: 'red'
+                                    }} onClick={() => handleDelete(todo?.id)}>&times;</span>
                                 </li>
                             ))
                         }
@@ -66,7 +91,7 @@ const ToDo = () => {
                 </div>
             </div>
         </>
-     );
+    );
 }
- 
+
 export default ToDo;

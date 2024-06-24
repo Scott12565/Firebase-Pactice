@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { auth } from "../firbase-config/firebase";
+import { auth, db } from "../firbase-config/firebase";
 import { SignOut, signUp } from "./index";
 import PropTypes from "prop-types";
 import Profile from "../profile/Profile";
 import ToDo from "../components/ToDo";
+import { doc, setDoc } from "firebase/firestore";
 
 const SignUp = ({ toggleForm }) => {
     
@@ -25,9 +26,10 @@ const SignUp = ({ toggleForm }) => {
 
     const handleSignUp = async (e) => {
         e.preventDefault();
-
+        
         try {
-            await signUp(userEmail, password)
+            await signUp(userEmail, password);
+            console.log('user document:')
         } catch (error) {
             console.log(error.message)
         }
@@ -68,7 +70,9 @@ const SignUp = ({ toggleForm }) => {
                 !isUserProfile ? (<div>
                 <p>Welcome, to your dashboard! {currentUser.displayName} </p>
                 <div>
+
                     <ToDo />
+                    <GetDocs />
                 </div>
                 <div>
                 <button onClick={handleLogOut}>Log Out</button>

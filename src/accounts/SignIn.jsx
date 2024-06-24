@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { SignOut, signIn } from "./index";
 import PropTypes from "prop-types";
-import { auth } from "../firbase-config/firebase";
+import { auth, db, storage } from "../firbase-config/firebase";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import Profile from "../profile/Profile";
 import ToDo from "../components/ToDo";
+import { addDoc, collection } from "firebase/firestore";
+import GetDocs from "../components/GetDocs";
 
 const SignIn = ({ toggleForm }) => {
     const [password, setPassword] = useState('');
@@ -43,6 +46,42 @@ const SignIn = ({ toggleForm }) => {
         setIsUserProfile(!isUserProfile)
     }
 
+    const uploadFile = (file) => {
+        const storageRef = ref(storage, 'files/' + file.name );
+        
+        uploadBytes(storageRef, file)
+        .then((snapShot) => {
+            console.log('file uploaded', snapShot);
+            return getDownloadURL(snapShot.ref  );
+        }).then(downloadUrl => {
+            console.log((downloadUrl));
+            storeMetaData(downloadUrl, file.name)
+        }).catch(err => {
+            console.log(err.message);
+        })
+    }
+
+    const storeMetaData = (url, fileName) => {
+
+        const fileData = {
+            name: fileName,
+            author: 'scott',
+            url: url
+        };
+
+        addDoc(collection(db, 'myFilesData'), fileData)
+        .then(docRef => {
+            console.log('the data inside firestore', docRef);
+        }).catch(err => {
+            console.log(err.message);
+        })
+    }
+
+    const handleFileChange = (e) => {
+        const selectedfile = e.target.files[0];
+        uploadFile(selectedfile);
+    }
+
     return ( 
         <>
             <div className="form-group">
@@ -66,11 +105,13 @@ const SignIn = ({ toggleForm }) => {
                     <p>Welcome, back to your dashboard! {currentUser.displayName}</p>
                     <div>
                         <ToDo />
+                        <GetDocs />
                     </div>
                     <div>
                     <button onClick={handleLogOut}>Log Out</button>
                     <button onClick={handleToogleProfile} >Profile</button>
                     </div>
+                    <input type="file" onChange={handleFileChange} />
 
                 </div>
                     ) : <Profile />
